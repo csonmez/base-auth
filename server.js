@@ -1,5 +1,5 @@
 require('./source/common/services/mongoose.service')
-
+require('dotenv').config()
 const express = require('express')
 const passport = require('passport')
 const cookieParser = require('cookie-parser')
@@ -13,7 +13,7 @@ const User = require('./source/user/models/user.model')
 const app = express()
 
 app.use(cors({
-    // origin: process.env.NODE_ENV === 'production' ? 'https://quo.vote' : true,
+    origin: process.env.NODE_ENV === 'production' ? 'https://quo.vote' : true,
     credentials: true
 }))
 app.set('trust proxy', 1)
@@ -27,7 +27,7 @@ app.use(
         saveUninitialized: false, // don't create session until something stored
         resave: false, //don't save session if unmodified
         cookie: {
-            maxAge: 5 * 60 * 60 * 1000,
+            maxAge: 60 * 1000,
             sameSite: process.env.NODE_ENV === 'production' && 'none',
             secure: process.env.NODE_ENV === 'production'
         }

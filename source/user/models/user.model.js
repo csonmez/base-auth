@@ -6,7 +6,18 @@ const UserSchema = new mongoose.Schema({
     surname: { type: String, required: true, trim: true },
     email: { type: String, required: true, trim: true, unique: true },
     password: { type: String, required: true }
-}, { timestamps: true })
+}, {
+    timestamps: true,
+    toJSON: {
+        transform(doc, ret) {
+            delete ret.salt
+            delete ret.hash
+            delete ret.__v
+            delete ret._id
+            return ret
+        }
+    }
+})
 
 UserSchema.plugin(passportLocalMongoose, {
     usernameField: 'email',
